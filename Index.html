@@ -1,0 +1,113 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lara's Lens | Photography</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="nav-left">
+            <a href="book_me.html">Book Me</a> 
+        </div>
+        <div class="nav-center">
+            <a href="Index.html" class="logo">LARA'S LENS</a>
+        </div>
+        <div class="nav-right">
+            <a href="https://www.instagram.com/laras_lens_photography/" target="_blank">
+                <span class="desktop-text">Instagram</span>
+                <span class="mobile-text">Ig</span>
+            </a>
+        </div>
+    </header>
+
+    <main id="gallery-container" class="gallery-container">
+        <!-- JavaScript will inject the shuffled photos here -->
+    </main>
+
+    <!-- New About / Footer Section -->
+    <footer class="about-footer">
+        <div class="footer-content">
+            <p></p>
+            <p></p>
+            <p></p>
+            <p>Hello there,</p>
+            <p>I’m Lara Malherbe, a final-year student at Tuks with a deep passion for capturing life's most authentic moments through photography. Based in Pretoria.</p>
+            <p>Email me at <a href="mailto:bookings@laraslens.com">bookings@laraslens.com</a> or text on <br>
+            <a href="https://www.instagram.com/laras_lens_photography/" target="_blank">instagram.com/laras_lens_photography</a>.
+        <p></p>
+    <p></p>
+</p>
+        </div>
+        <div class="copyright">
+            &copy; 2026
+        </div>
+    </footer>
+
+    <script>
+        const imageNumbers = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+        
+        // 14 unique headings
+        const baseHeadings = [
+            "Weddings", "Special Moments", "Birthdays", "Editorial",
+            "Portraits", "Spring Beauty", "Surveillance", "Graduation",
+            "Casual", "Events", "Studio", "Outdoor", "Lifestyle", "Couples"
+        ];
+
+        // Duplicate the headings so we have exactly 28, then shuffle them
+        let fullHeadings = [...baseHeadings, ...baseHeadings];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const shuffledImages = shuffleArray([...imageNumbers]);
+        fullHeadings = shuffleArray(fullHeadings); // Shuffle the 28 headings
+
+        const gallery = document.getElementById('gallery-container');
+
+        shuffledImages.forEach(num => {
+            // Pop removes the last item from the array, guaranteeing no over-repetition
+            const assignedHeading = fullHeadings.pop(); 
+
+            const box = document.createElement('div');
+            box.className = 'photo-box';
+
+            const img = document.createElement('img');
+            img.src = `Evagria_files/pic${num}.jpg`;
+            img.alt = assignedHeading;
+            img.loading = "lazy"; 
+
+            const label = document.createElement('div');
+            label.className = 'photo-label';
+            label.textContent = assignedHeading;
+
+            box.appendChild(img);
+            box.appendChild(label);
+            gallery.appendChild(box);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.15 
+        });
+
+        const hiddenElements = document.querySelectorAll('.photo-box');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>

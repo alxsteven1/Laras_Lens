@@ -1,0 +1,303 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+:root {
+    --bg-color: #0f0f0f;
+    --text-color: #f4f4f4;
+    --accent-color: #888;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- STICKY HEADER --- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bg-color);
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-left, .nav-right { flex: 1; }
+.nav-right { text-align: right; }
+.nav-center { flex: 2; text-align: center; }
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--text-color);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+header a {
+    color: var(--text-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+header a:hover {
+    color: var(--accent-color);
+}
+
+.mobile-text { display: none; }
+
+/* --- GALLERY LAYOUT --- */
+.gallery-container {
+    padding: 2rem 5%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.photo-box {
+    position: relative;
+    width: 100%;
+    height: 500px; /* Taller default height for desktop */
+    border-radius: 4px;
+    overflow: hidden;
+    /* Enhanced Animation Initial State */
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Gradient overlay to make text readable */
+.photo-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Forces image to fill the box, preventing white borders */
+    display: block;
+    transition: transform 0.8s ease;
+}
+
+.photo-box:hover img {
+    transform: scale(1.05);
+}
+
+/* The text at the bottom of the photos */
+.photo-label {
+    position: absolute;
+    bottom: 25px;
+    width: 100%;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #fff;
+    z-index: 2;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Animation trigger class */
+.photo-box.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+
+/* --- BOOKING PAGE --- */
+.booking-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 3rem;
+    background: #151515;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.booking-container h1 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+input, select {
+    padding: 1rem;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #888;
+}
+
+/* Makes the little calendar/clock icons white instead of black */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.price-display {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 2.5rem 0 1.5rem;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 1.2rem;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+    background: #e0e0e0;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+    header { padding: 1.2rem 1.5rem; }
+    .logo { font-size: 1.4rem; }
+    .desktop-text { display: none; }
+    .mobile-text { display: inline; }
+
+    .gallery-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .photo-box {
+        height: 40vh; /* Uses viewport height for a tall, editorial look */
+    }
+
+    .photo-box:first-child {
+        grid-column: 1 / -1; 
+        height: 65vh; /* Large hero image */
+    }
+
+    .photo-label {
+        font-size: 1rem;
+        bottom: 15px;
+    }
+
+    /* --- ABOUT / FOOTER SECTION --- */
+.about-footer {
+    padding: 8rem 5% 2rem;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60vh; /* Gives it the spacious look from your reference */
+    background-color: var(--bg-color);
+}
+
+.footer-content {
+    max-width: 650px;
+    margin: auto;
+}
+
+.footer-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #e0e0e0;
+}
+
+.footer-content a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.footer-content a:hover {
+    opacity: 0.7;
+}
+
+.copyright {
+    font-family: 'Montserrat', sans-serif; /* Keep copyright modern */
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 4rem;
+}
+
+/* Mobile adjustments for the footer */
+@media (max-width: 768px) {
+    .about-footer {
+        padding: 5rem 1.5rem 2rem;
+        min-height: 50vh;
+    }
+    .footer-content p {
+        font-size: 1rem;
+    }
+}
+}
+

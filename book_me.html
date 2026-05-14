@@ -1,0 +1,102 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Me | Lara's Lens</title>
+    <!-- Favicon link pointing to your logo.png -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="nav-left">
+            <a href="book_me.html">Book Me</a>
+        </div>
+        <div class="nav-center">
+            <a href="Index.html" class="logo">LARA'S LENS</a>
+        </div>
+        <div class="nav-right">
+            <a href="https://www.instagram.com/laras_lens_photography/" target="_blank">
+                <span class="desktop-text">Instagram</span>
+                <span class="mobile-text">Ig</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="booking-container">
+        <h1>Book a Session</h1>
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Time</label>
+                <input type="time" id="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="e.g., Studio, Beach, City Center" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sessionType">Type of Session</label>
+                <select id="sessionType" required>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Graduation">Graduation</option>
+                    <option value="Casual">Casual / Lifestyle</option>
+                    <option value="Portrait">Portrait</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="hours">How many hours?</label>
+                <input type="number" id="hours" min="1" max="12" value="1" required>
+            </div>
+
+            <div class="price-display">
+                Total Price: <span id="priceLabel">R200</span>
+            </div>
+
+            <button type="button" class="btn" onclick="sendEnquiry()">Enquire Now</button>
+        </form>
+    </main>
+
+    <script>
+        const ratePerHour = 200;
+        const hoursInput = document.getElementById('hours');
+        const priceLabel = document.getElementById('priceLabel');
+
+        hoursInput.addEventListener('input', () => {
+            const hours = hoursInput.value;
+            const total = hours * ratePerHour;
+            priceLabel.textContent = `R${total}`;
+        });
+
+        function sendEnquiry() {
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const hours = document.getElementById('hours').value;
+            
+            if(!date || !time) {
+                alert("Please select a date and time first.");
+                return;
+            }
+
+            const subject = encodeURIComponent("Photography Session Enquiry");
+            const bodyText = `Hey im intrested in doing a photoshoot on ${date} at ${time} for ${hours} hours. Are you avalible ?`;
+            const body = encodeURIComponent(bodyText);
+            
+            const email = "your_email@example.com"; 
+            
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+    </script>
+</body>
+</html>
