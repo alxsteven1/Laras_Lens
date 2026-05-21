@@ -2,10 +2,37 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
 
+/* --- THEME VARIABLES --- */
 :root {
+    /* LIGHT MODE (DEFAULT) */
+    --bg-color: #fafafa;
+    --text-color: #0f0f0f;
+    --accent-color: #555;
+    
+    --border-color: rgba(0, 0, 0, 0.1);
+    --form-bg: #ffffff;
+    --input-bg: #f2f2f2;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    
+    --photo-overlay: linear-gradient(to top, rgba(255,255,255,0.95), transparent);
+    --label-color: #000;
+    --label-shadow: none;
+}
+
+body.dark-mode {
+    /* DARK MODE OVERRIDES */
     --bg-color: #0f0f0f;
     --text-color: #f4f4f4;
     --accent-color: #888;
+
+    --border-color: rgba(255, 255, 255, 0.05);
+    --form-bg: #151515;
+    --input-bg: #0a0a0a;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+
+    --photo-overlay: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    --label-color: #fff;
+    --label-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 * {
@@ -20,6 +47,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 /* --- STICKY HEADER --- */
@@ -32,7 +60,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .nav-left, .nav-right { flex: 1; }
@@ -69,21 +98,33 @@ header a:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    perspective: 1200px; /* Essential for the 3D scroll effect */
 }
 
+/* Updated Cooler Animation */
 .photo-box {
     position: relative;
     width: 100%;
-    height: 500px; /* Taller default height for desktop */
+    height: 500px;
     border-radius: 4px;
     overflow: hidden;
-    /* Enhanced Animation Initial State */
+    /* 3D Transform, scaling, and blur for a sleek entrance */
     opacity: 0;
-    transform: translateY(60px) scale(0.95);
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(80px) scale(0.9) rotateX(-10deg);
+    filter: blur(5px);
+    transform-origin: top center;
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                filter 0.8s ease-out;
 }
 
-/* Gradient overlay to make text readable */
+.photo-box.show {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0);
+    filter: blur(0);
+}
+
+/* Gradient overlay */
 .photo-box::after {
     content: '';
     position: absolute;
@@ -91,15 +132,16 @@ header a:hover {
     left: 0;
     width: 100%;
     height: 40%;
-    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    background: var(--photo-overlay);
     z-index: 1;
     pointer-events: none;
+    transition: background 0.4s ease;
 }
 
 .photo-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Forces image to fill the box, preventing white borders */
+    object-fit: cover; 
     display: block;
     transition: transform 0.8s ease;
 }
@@ -108,7 +150,6 @@ header a:hover {
     transform: scale(1.05);
 }
 
-/* The text at the bottom of the photos */
 .photo-label {
     position: absolute;
     bottom: 25px;
@@ -116,30 +157,91 @@ header a:hover {
     text-align: center;
     font-family: 'Playfair Display', serif;
     font-size: 1.3rem;
-    color: #fff;
+    color: var(--label-color);
     z-index: 2;
     letter-spacing: 2px;
     text-transform: uppercase;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    text-shadow: var(--label-shadow);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
-/* Animation trigger class */
-.photo-box.show {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+/* --- THEME TOGGLE BUTTON --- */
+.theme-toggle-wrapper {
+    margin: 3rem 0;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+.theme-btn {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    padding: 0.8rem 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* --- ABOUT / FOOTER SECTION --- */
+.about-footer {
+    padding: 8rem 5% 2rem;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60vh;
+    background-color: var(--bg-color);
+    transition: background-color 0.4s ease;
+}
+
+.footer-content {
+    max-width: 650px;
+    margin: auto;
+}
+
+.footer-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.footer-content a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.footer-content a:hover {
+    opacity: 0.7;
+}
+
+.copyright {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+}
 
 /* --- BOOKING PAGE --- */
 .booking-container {
     max-width: 600px;
     margin: 4rem auto;
     padding: 3rem;
-    background: #151515;
+    background: var(--form-bg);
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px var(--shadow-color);
+    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .booking-container h1 {
@@ -160,31 +262,36 @@ label {
     margin-bottom: 0.5rem;
     font-weight: 400;
     font-size: 0.85rem;
-    color: #bbb;
+    color: var(--accent-color);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 input, select {
     padding: 1rem;
-    background: #0a0a0a;
-    border: 1px solid #333;
-    color: #fff;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
     border-radius: 4px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background 0.4s ease, color 0.4s ease;
 }
 
 input:focus, select:focus {
     outline: none;
-    border-color: #888;
+    border-color: var(--accent-color);
 }
 
-/* Makes the little calendar/clock icons white instead of black */
+/* Icon colors for dark mode calendar/time picker */
+body.dark-mode input[type="date"]::-webkit-calendar-picker-indicator,
+body.dark-mode input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
     cursor: pointer;
 }
 
@@ -194,15 +301,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     margin: 2.5rem 0 1.5rem;
     font-weight: 400;
     font-family: 'Playfair Display', serif;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .btn {
     display: block;
     width: 100%;
     padding: 1.2rem;
-    background: #fff;
-    color: #000;
+    background: var(--text-color);
+    color: var(--bg-color);
     border: none;
     border-radius: 4px;
     font-size: 1rem;
@@ -210,22 +317,27 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.1s ease;
+    transition: background 0.3s ease, transform 0.1s ease, color 0.3s ease;
 }
 
 .btn:hover {
-    background: #e0e0e0;
+    opacity: 0.8;
 }
 
 .btn:active {
     transform: scale(0.98);
 }
 
+/* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
     header { padding: 1.2rem 1.5rem; }
     .logo { font-size: 1.4rem; }
+    
     .desktop-text { display: none; }
     .mobile-text { display: inline; }
+    
+    /* Make "Book Me" smaller on mobile */
+    .book-btn { font-size: 0.65rem; }
 
     .gallery-container {
         grid-template-columns: 1fr 1fr;
@@ -234,12 +346,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     }
 
     .photo-box {
-        height: 40vh; /* Uses viewport height for a tall, editorial look */
+        height: 40vh; 
     }
 
     .photo-box:first-child {
         grid-column: 1 / -1; 
-        height: 65vh; /* Large hero image */
+        height: 65vh; 
     }
 
     .photo-label {
@@ -247,57 +359,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
         bottom: 15px;
     }
 
-    /* --- ABOUT / FOOTER SECTION --- */
-.about-footer {
-    padding: 8rem 5% 2rem;
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 60vh; /* Gives it the spacious look from your reference */
-    background-color: var(--bg-color);
-}
-
-.footer-content {
-    max-width: 650px;
-    margin: auto;
-}
-
-.footer-content p {
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #e0e0e0;
-}
-
-.footer-content a {
-    color: #fff;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-}
-
-.footer-content a:hover {
-    opacity: 0.7;
-}
-
-.copyright {
-    font-family: 'Montserrat', sans-serif; /* Keep copyright modern */
-    font-size: 0.85rem;
-    color: #888;
-    margin-top: 4rem;
-}
-
-/* Mobile adjustments for the footer */
-@media (max-width: 768px) {
     .about-footer {
         padding: 5rem 1.5rem 2rem;
         min-height: 50vh;
     }
+
     .footer-content p {
         font-size: 1rem;
     }
 }
-}
-
