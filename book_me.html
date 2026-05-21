@@ -1,20 +1,26 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Me | Lara's Lens</title>
-    <!-- Favicon link pointing to your logo.png -->
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Maintain chosen theme on this page too -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 
     <header>
         <div class="nav-left">
-            <a href="book_me.html">Book Me</a>
+            <a href="book_me.html" class="book-btn">Book Me</a>
         </div>
         <div class="nav-center">
             <a href="index.html" class="logo">LARA'S LENS</a>
@@ -93,7 +99,7 @@
             const bodyText = `Hey im intrested in doing a photoshoot on ${date} at ${time} for ${hours} hours. Are you avalible ?`;
             const body = encodeURIComponent(bodyText);
             
-            const email = "your_email@example.com"; 
+            const email = "bookings@laraslens.com"; 
             
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         }
